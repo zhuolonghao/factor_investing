@@ -17,4 +17,4 @@ except Exception as e:
     print(e)
     spy = spy.loc[spy.index.isin(Begin_of_Month)]
 
-spy.to_csv('SPY_xbday.csv', index=False)
+spy.to_csv(fr"SPY_{x_bday}bday.csv", index=False)
