@@ -1,6 +1,8 @@
 # file: ~/.gitignore_global
 .DS_Store
 .idea
+traded_tickers_200001_202310/**
+~$*
 
 # Compiled source #
 ###################

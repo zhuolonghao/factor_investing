@@ -15,6 +15,9 @@ for x in files:
     spy = pd.read_csv(fr'{path}/{x}')
     spy['Date2'] = pd.to_datetime(spy['Date'])
     spy.set_index('Date2', inplace=True)
+    windows = spy['Adj Close'].rolling(260)
+    spy['Week52_high'] = windows.max()
+    spy['Week52_low'] = windows.min()
     for size in [21, 63, 126]:
         windows = spy['Volume'].rolling(size)
         spy['vol_MA'+str(size)] = windows.mean()
@@ -30,7 +33,9 @@ for x in files:
     # added on 10/28/2023
 
     spy['avg_price'] = spy[['Open', 'High', 'Low', 'Close']].mean(axis=1)
-    vars = ['Ticker', 'Date', 'avg_price', 'Adj Close', 'Volume', 'vol_MA21', 'vol_MA63', 'vol_MA126', 'vol_zero21', 'vol_zero63', 'vol_zero126']
+    vars = ['Ticker', 'Date', 'avg_price',
+            'Adj Close', 'Week52_high', 'Week52_low',
+            'Volume', 'vol_MA21', 'vol_MA63', 'vol_MA126', 'vol_zero21', 'vol_zero63', 'vol_zero126']
     all_tickers = pd.concat([all_tickers, spy[vars]], ignore_index=True)
 
 all_tickers.to_csv(fr'tickers_{x_bday}days.csv', index=False)
